@@ -1,0 +1,32 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+  min-height: 100vh;
+
+  color-scheme: light dark;
+  color: rgba(255, 255, 255, 0.87);
+  background-color: #34363e;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-text-size-adjust: 100%;
+}
+
+@layer base {
+  #root {
+    @apply flex flex-col justify-between items-center min-h-screen;
+  }
+}
+
+@layer components {
+  .radio-label {
+    @apply w-full rounded-md flex justify-center items-center gap-2 p-2 text-onyx text-center cursor-pointer whitespace-nowrap;
+  }
+}
