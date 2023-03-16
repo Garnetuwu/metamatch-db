@@ -24,7 +24,7 @@ router.get("/register", async (req, res) => {
   }
 });
 
-router.post("/login", async (req, res) => {
+router.post("/login", async (req, res, next) => {
   if (!req.body.email) {
     return res.status(400).send("no request body found");
   }

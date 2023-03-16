@@ -3,19 +3,48 @@ const router = express.Router();
 const catchAsync = require("../utils/CatchAsync");
 const checkAuthMiddleware = require("../middleware/checkAuthMiddleware");
 const Hero = require("../models/hero");
+const ExpressError = require("../utils/Errors");
+
+router.get(
+  "/:id",
+  catchAsync(async (req, res, next) => {
+    const params = req.params;
+    try {
+      const hero = await Hero.findOne({ _id: params.id });
+      res.send(hero);
+    } catch (e) {
+      next(e);
+    }
+  })
+);
+
+router.delete(
+  "/:id",
+  checkAuthMiddleware,
+  catchAsync(async (req, res, next) => {
+    const params = req.params;
+    if (!params.id) throw new ExpressError("no id found", 400);
+    try {
+      await Hero.findOneAndDelete({ _id: params.id });
+      //delete this hero inside other heroes' relationships
+      await Hero.updateMany(
+        {},
+        { $pull: { relationships: { hero: params.id } } }
+      );
+      res.send("deleted");
+    } catch (e) {
+      next(e);
+    }
+  })
+);
 
 router.get(
   "/",
   catchAsync(async (req, res) => {
     const allHeroes = await Hero.find().select(["name", "image"]);
-    console.log(allHeroes);
+    console.log("heros send");
     res.send(allHeroes);
   })
-);
-
-router.get(
-  "/:id",
-  catchAsync(async (req, res) => {})
 );
 
 router.post(
