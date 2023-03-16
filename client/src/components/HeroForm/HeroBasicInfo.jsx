@@ -31,12 +31,18 @@ const HeroBasicInfo = () => {
 
   const urlHandler = (e) => {
     const url = e.target.value;
+    console.log(url);
     //validate
-    const validURL = /^(ftp|http|https):\/\/[^ "]+$/.test(url);
+    const validURL =
+      /^(http(s):\/\/.)[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)$/.test(
+        url
+      ) && url.includes("https://drive.google.com");
     if (!validURL) {
       return setUrlError("invalid or empty url");
     }
-    dispatch({ type: "UPDATE", payload: { image: url } });
+    const id = url.split("/")[5];
+    console.log(id);
+    dispatch({ type: "UPDATE", payload: { image: id } });
   };
 
   return (
@@ -67,7 +73,7 @@ const HeroBasicInfo = () => {
         onBlur={urlHandler}
       />
 
-      {!urlError ? (
+      {urlError ? (
         <span className="col-span-2" />
       ) : (
         <ValidationMessage className="col-span-2 place-self-stretch">

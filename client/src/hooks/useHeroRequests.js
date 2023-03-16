@@ -1,8 +1,9 @@
-import { addNewHero, getHeroes } from "../api/hero";
-import { useMutation, useQuery, QueryClient } from "@tanstack/react-query";
+import { addNewHero, getHeroes, getHero, deleteHero } from "../api/hero";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
 
-const useHeroRequests = () => {
+const useHeroRequests = (heroId, token) => {
+  const queryClient = useQueryClient();
   const navigate = useNavigate();
   const postNewHero = useMutation({
     mutationFn: (data) => addNewHero(data.newHero, data.token),
@@ -17,14 +18,29 @@ const useHeroRequests = () => {
     },
   });
 
-  const fetchHeroes = useQuery(["heroes"], {
-    queryFn: getHeroes,
-    onSuccess: () => {
-      QueryClient.invalidateQueries({ queryKey: "heroes" });
+  const deleteHeroMutation = useMutation({
+    mutationFn: (data) => deleteHero(data.id, data.token),
+    onSettled: () => {
+      console.log("hero successfully deleted");
+      queryClient.invalidateQueries("heroes");
     },
   });
 
-  return { postNewHero, fetchHeroes };
+  const fetchHeroesData = useQuery(["heroes"], {
+    queryFn: getHeroes,
+    refetchOnWindowFocus: false,
+    notifyOnChangeProps: ["data"],
+    enabled: false,
+  });
+
+  const fetchHeroData = useQuery(["heroes", heroId], {
+    queryFn: () => getHero(heroId, token),
+    enabled: false,
+    refetchOnWindowFocus: false,
+    notifyOnChangeProps: ["data"],
+  });
+
+  return { postNewHero, fetchHeroesData, deleteHeroMutation, fetchHeroData };
 };
 
 export default useHeroRequests;

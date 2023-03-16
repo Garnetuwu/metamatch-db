@@ -4,9 +4,11 @@ import AuthContextProvider from "./store/auth-context";
 import Login from "./routes/Login";
 import Verify from "./routes/Verify";
 import NewHero from "./routes/NewHero";
-import DisplayWrapper from "./components/display/DisplayWrapper";
-import { useAuth } from "./store/auth-context";
 import Heroes from "./routes/Heroes";
+import DetailedHero from "./routes/DetailedHero";
+import DisplayWrapper from "./components/display/DisplayWrapper";
+
+import { useAuth } from "./store/auth-context";
 import { Provider } from "react-redux";
 import { store } from "./store/hero";
 
@@ -22,13 +24,7 @@ const AuthWrapper = () => {
   const { loggedIn } = useAuth();
   return (
     <DisplayWrapper>
-      {!loggedIn && (
-        <>
-          <div />
-          <Outlet />
-          <div />
-        </>
-      )}
+      {!loggedIn && <Outlet />}
       {loggedIn && <p> you are already logged in </p>}
     </DisplayWrapper>
   );
@@ -48,10 +44,6 @@ const router = createBrowserRouter([
   {
     element: <ContextWrapper />,
     children: [
-      {
-        path: "/",
-        element: <Navigate to="/login" />,
-      },
       {
         path: "/verify",
         element: <Verify />,
@@ -79,6 +71,10 @@ const router = createBrowserRouter([
           {
             path: "/heroes",
             element: <Heroes />,
+          },
+          {
+            path: "/heroes/:id",
+            element: <DetailedHero />,
           },
         ],
       },
