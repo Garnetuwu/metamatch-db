@@ -1,4 +1,10 @@
-import { addNewHero, getHeroes, getHero, deleteHero } from "../api/hero";
+import {
+  addNewHero,
+  getHeroes,
+  getHero,
+  deleteHero,
+  editHero,
+} from "../api/hero";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
 
@@ -16,6 +22,10 @@ const useHeroRequests = (heroId, token) => {
     onError: (error) => {
       console.log(error);
     },
+  });
+
+  const editHeroMutation = useMutation({
+    mutationFn: (data) => editHero(data.hero, data.token, data.heroId),
   });
 
   const deleteHeroMutation = useMutation({
@@ -40,7 +50,13 @@ const useHeroRequests = (heroId, token) => {
     notifyOnChangeProps: ["data"],
   });
 
-  return { postNewHero, fetchHeroesData, deleteHeroMutation, fetchHeroData };
+  return {
+    postNewHero,
+    fetchHeroesData,
+    deleteHeroMutation,
+    fetchHeroData,
+    editHeroMutation,
+  };
 };
 
 export default useHeroRequests;

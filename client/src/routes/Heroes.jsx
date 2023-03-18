@@ -15,6 +15,8 @@ const Heroes = () => {
     deleteHeroMutation.mutate({ id, token });
   };
 
+  let filteredHeroes = [];
+
   useEffect(() => {
     refetch();
   }, []);
@@ -36,7 +38,7 @@ const Heroes = () => {
       {isLoading && <div>loading</div>}
       {isError && <div>{error.response}</div>}
       {isSuccess && data.length > 0 && (
-        <Card className="grid grid-cols-5 justify-center items-center w-[90vw]">
+        <Card className="grid xl:grid-cols-5 w-[90vw]">
           {isSuccess && data.length > 0 && (
             <HeroesList heroes={data} onDeleteHero={deleteHeroHandler} />
           )}

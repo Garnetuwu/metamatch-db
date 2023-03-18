@@ -1,20 +1,20 @@
 export const traits = [
-  ["mobility", ["low mobility", "high mobility"]],
-  ["damage", ["low damage", "high damage"]],
-  ["sustain", ["low sustain", "high sustain"]],
-  ["range", ["short range", "long range"]],
-  ["accuracy", ["low accuracy", "high accuracy"]],
-  ["burst", ["easy to get bursted", "high burst damage"]],
+  { name: "mobility", value: ["low mobility", "high mobility"] },
+  { name: "damage", value: ["low damage", "high damage"] },
+  { name: "sustain", value: ["low sustain", "high sustain"] },
+  { name: "range", value: ["short range", "long range"] },
+  { name: "accuracy", value: ["low accuracy", "high accuracy"] },
+  { name: "burst", value: ["easy to get bursted", "high burst damage"] },
 ];
 
-let strength = [];
-let weakness = [];
+let strengthList = [];
+let weaknessList = [];
 
-traits.filter((trait) => weakness.push(trait[1][0]));
-traits.filter((trait) => strength.push(trait[1][1]));
+traits.filter((trait) => weaknessList.push(trait.value[0]));
+traits.filter((trait) => strengthList.push(trait.value[1]));
 
-export { weakness, strength };
+export { weaknessList, strengthList };
 
-export const role = ["tank", "support", "DPS"];
+export const roleList = ["tank", "support", "dps"];
 
-export const type = ["dive", "brawl", "spam", "flex"];
+export const typeList = ["dive", "brawl", "spam", "flex"];

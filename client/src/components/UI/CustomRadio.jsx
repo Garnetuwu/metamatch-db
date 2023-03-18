@@ -1,13 +1,13 @@
 import { forwardRef } from "react";
 
 const CustomRadio = forwardRef(
-  ({ children, sort, value, checkedValue, onChange }, ref) => {
+  ({ children, sort, value, checkedValue, onChange, className }, ref) => {
     return (
       <label
         htmlFor={value}
         className={`radio-label ${
           checkedValue === value ? "bg-dirty-pink text-black" : " bg-slate-500"
-        }`}
+        } ${className}`}
       >
         <span>{children}</span>
         <input

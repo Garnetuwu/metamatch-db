@@ -3,9 +3,19 @@ import capitalize from "../../utils/capitalize";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 
-const RadioGroup = ({ choices, groupName, onMakeChange, isTraitClear }) => {
+const RadioGroup = ({
+  className,
+  choices,
+  groupName,
+  data,
+  titleClassName,
+}) => {
   const [checkedValue, setCheckedValue] = useState(null);
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    setCheckedValue(data);
+  }, [data]);
 
   const changeValueHandler = (e) => {
     const value = e.target.value;
@@ -16,21 +26,12 @@ const RadioGroup = ({ choices, groupName, onMakeChange, isTraitClear }) => {
     } else if (groupName === "type") {
       dispatch({ type: "UPDATE", payload: { type: value } });
       return;
+    } else if (groupName === "weakness") {
+      dispatch({ type: "UPDATE", payload: { weakness: value } });
     } else {
-      onMakeChange(); //setIsTraitClear(false)
-      dispatch({
-        type: "UPDATE_TRAIT",
-        payload: { traitType: groupName, value },
-      });
+      dispatch({ type: "UPDATE", payload: { strength: value } });
     }
   };
-
-  useEffect(() => {
-    if (isTraitClear) {
-      setCheckedValue(null);
-      dispatch({ type: "CLEAR_TRAIT" });
-    }
-  }, [isTraitClear, dispatch]);
 
   const content = choices.map((choice) => (
     <CustomRadio
@@ -44,13 +45,12 @@ const RadioGroup = ({ choices, groupName, onMakeChange, isTraitClear }) => {
     </CustomRadio>
   ));
   return (
-    <>
-      <p className="text-md">
-        {capitalize(groupName)}{" "}
-        {groupName === "role" || groupName === "type" ? "*" : ""}
+    <div className={`${className} col-span-full grid`}>
+      <p className={`text-md text-center ${titleClassName}`}>
+        {capitalize(groupName)}*
       </p>
       {content}
-    </>
+    </div>
   );
 };
 

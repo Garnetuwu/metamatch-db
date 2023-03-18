@@ -10,7 +10,7 @@ import DisplayWrapper from "./components/display/DisplayWrapper";
 
 import { useAuth } from "./store/auth-context";
 import { Provider } from "react-redux";
-import { store } from "./store/hero";
+import { store } from "./store/heroStore";
 
 const ContextWrapper = () => {
   return (
@@ -74,7 +74,11 @@ const router = createBrowserRouter([
           },
           {
             path: "/heroes/:id",
-            element: <DetailedHero />,
+            element: (
+              <Provider store={store}>
+                <DetailedHero />
+              </Provider>
+            ),
           },
         ],
       },

@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import transformGoogleImage from "../../utils/transformGoogleImage";
 import Button from "../UI/Button";
 import HeroCard from "../UI/HeroCard";
 
@@ -8,7 +9,7 @@ const HeroItem = ({ image, name, id, onDeleteHero }) => {
       <div>
         <img
           className="w-[100px] h-[100px]"
-          src={`https://drive.google.com/uc?export=view&id=${image}`}
+          src={transformGoogleImage(image)}
         />
       </div>
       <div className="text-gray-300">{name}</div>
