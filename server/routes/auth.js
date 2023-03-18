@@ -36,7 +36,7 @@ router.post("/login", async (req, res, next) => {
   //generate voucher and send verification email
   if (foundUser) {
     const token = jwt.sign({ userId: foundUser.id }, process.env.JWT_SECRET, {
-      expiresIn: "5h",
+      expiresIn: "10h",
     });
     console.log(token);
     try {

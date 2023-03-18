@@ -10,8 +10,38 @@ router.get(
   catchAsync(async (req, res, next) => {
     const params = req.params;
     try {
-      const hero = await Hero.findOne({ _id: params.id });
+      const hero = await Hero.findOne({ _id: params.id }).populate({
+        path: "relationships",
+        populate: {
+          path: "hero",
+          model: "Hero",
+          select: "name role",
+        },
+      });
       res.send(hero);
+    } catch (e) {
+      next(e);
+    }
+  })
+);
+
+router.put(
+  "/:id",
+  checkAuthMiddleware,
+  catchAsync(async (req, res, next) => {
+    const params = req.params;
+    const body = req.body;
+    console.log(body);
+    if (!params.id) throw new ExpressError("no id found", 400);
+    try {
+      const updatedHero = await Hero.findOneAndUpdate(
+        { _id: params.id },
+        body.hero,
+        {
+          new: true,
+        }
+      );
+      res.sendStatus(200);
     } catch (e) {
       next(e);
     }
@@ -41,7 +71,7 @@ router.delete(
 router.get(
   "/",
   catchAsync(async (req, res) => {
-    const allHeroes = await Hero.find().select(["name", "image"]);
+    const allHeroes = await Hero.find({}, ["image", "role", "name"]);
     console.log("heros send");
     res.send(allHeroes);
   })
