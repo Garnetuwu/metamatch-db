@@ -1,6 +1,5 @@
 import CustomRadio from "../UI/CustomRadio";
 import { roleList } from "../../utils/heroTraits";
-import Divider from "../UI/Divider";
 
 const RelationFilter = ({ currentRole, onFilter }) => {
   const content = roleList.map((role) => (
@@ -8,6 +7,7 @@ const RelationFilter = ({ currentRole, onFilter }) => {
       className="w-1/2 text-white rounded-none place-self-center hover:bg-indigo"
       sort="role"
       value={role}
+      key={role}
       checkedValue={currentRole}
       onChange={() => onFilter(role)}
     >

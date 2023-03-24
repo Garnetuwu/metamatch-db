@@ -34,13 +34,52 @@ router.put(
     console.log(body);
     if (!params.id) throw new ExpressError("no id found", 400);
     try {
-      const updatedHero = await Hero.findOneAndUpdate(
-        { _id: params.id },
-        body.hero,
-        {
-          new: true,
-        }
-      );
+      //update hero basic info
+      if (body.hero.basicInfo) {
+        const updatedHero = await Hero.findOneAndUpdate(
+          { _id: params.id },
+          body.hero.basicInfo,
+          {
+            new: true,
+          }
+        );
+        console.log(updatedHero);
+      } else if (body.relationships) {
+        //update hero relationships
+        const relationships = body.hero.relationships;
+        const heroId = body.hero.heroId;
+        relationships.map(async (relationship) => {
+          //update the relationship inside this hero
+          await Hero.findOneAndUpdate(
+            {
+              _id: heroId,
+              "relationships.id": relationship._id,
+            },
+            {
+              $set: {
+                "relationships.$.score": relationship.score,
+                "relationships.$.special": relationship.special,
+                "relationships.$.comment": relationship.comment,
+              },
+            }
+          );
+          //update the corresponding hero's relationship to this hero
+          const foundCorrespondingHero = await Hero.findOneAndUpdate(
+            {
+              _id: relationship.hero._id,
+              "relationships.hero": heroId,
+            },
+            {
+              $set: {
+                "relationships.$.score": -relationship.score,
+                "relationships.$.special": relationship.special,
+                "relationships.$.comment": relationship.comment,
+              },
+            }
+          );
+          console.log(foundCorrespondingHero);
+        });
+      }
       res.sendStatus(200);
     } catch (e) {
       next(e);

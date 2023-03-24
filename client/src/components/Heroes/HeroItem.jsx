@@ -13,9 +13,11 @@ const HeroItem = ({ image, name, id, onDeleteHero }) => {
         />
       </div>
       <div className="text-gray-300">{name}</div>
-      <Button className="mt-2">
-        <Link to={`/heroes/${id}`}>view</Link>
-      </Button>
+
+      <Link to={`/heroes/${id}`} className="contents">
+        <Button className="mt-2">view </Button>
+      </Link>
+
       <Button className="mt-2" onClick={() => onDeleteHero(id)}>
         delete
       </Button>

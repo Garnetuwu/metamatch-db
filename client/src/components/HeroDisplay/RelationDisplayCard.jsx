@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import Tag from "../UI/Tag";
 
-const RelationDisplayCard = ({ id, name, role, score, special, comment }) => {
+const RelationDisplayCard = ({ id, name, score, special, comment }) => {
   return (
     <div className="place-self-stretch flex flex-col p-2 rounded-lg  bg-indigo border-2 border-sand">
       <Link

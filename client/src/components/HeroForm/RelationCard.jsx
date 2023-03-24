@@ -1,20 +1,38 @@
 import Label from "../UI/Label";
 import Input from "../UI/Input";
-import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
 const RelationCard = ({ name, className }) => {
-  const [special, setSpecial] = useState(false);
-  const [score, setScore] = useState(0);
+  const heroRelation = useSelector(
+    (state) =>
+      state.relationships.filter((relation) => relation.hero.name === name)[0]
+  );
+
+  const { score, special, comment } = heroRelation;
+
+  const dispatch = useDispatch();
 
   const scoreChangeHandler = (e) => {
-    setScore(e.target.value);
+    const score = e.target.value;
+    dispatch({
+      type: "UPDATE_RELATION",
+      payload: { name, relation: { score } },
+    });
   };
 
-  useEffect(() => {
-    if (special) {
-      setScore(0);
-    }
-  }, [special]);
+  const stateChangeHandler = (e) => {
+    dispatch({
+      type: "UPDATE_RELATION",
+      payload: { name, relation: { special: e.target.checked } },
+    });
+  };
+
+  const commentChangeHandler = (e) => {
+    dispatch({
+      type: "UPDATE_COMMENT",
+      payload: { name, relation: { comment: e.target.value } },
+    });
+  };
 
   return (
     <li className={`${className} bg-indigo p-3 m-2 rounded-md`}>
@@ -39,9 +57,7 @@ const RelationCard = ({ name, className }) => {
           value={score}
           min="-100"
           max="100"
-          onChange={(e) => {
-            setScore(e.target.value);
-          }}
+          onChange={scoreChangeHandler}
           className=" text-white w-[40%] text-center rounded-lg disabled:bg-metal disabled:text-gray-400"
         />
       </div>
@@ -50,8 +66,9 @@ const RelationCard = ({ name, className }) => {
           Special hero?
         </Label>
         <Input
+          checked={special}
           type="checkbox"
-          onClick={() => setSpecial((prevState) => !prevState)}
+          onChange={stateChangeHandler}
           id={name + "Special"}
         />
       </div>
@@ -60,6 +77,8 @@ const RelationCard = ({ name, className }) => {
           Comment:
         </Label>
         <textarea
+          onChange={commentChangeHandler}
+          value={comment}
           id={name + "Comment"}
           className="outline-none bg-slate-500/70 text-white p-2 rounded-md"
         />

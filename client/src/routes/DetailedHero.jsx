@@ -8,6 +8,7 @@ import BasicInfoUpdate from "../components/HeroDisplay/BasicInfoUpdate";
 import RelationsUpdate from "../components/HeroDisplay/RelationsUpdate";
 import RelationFilter from "../components/HeroDisplay/RelationFilter";
 import Card from "../components/UI/Card";
+import Divider from "../components/UI/Divider";
 
 const DetailedHero = () => {
   const token = localStorage.getItem("token");
@@ -57,19 +58,23 @@ const DetailedHero = () => {
             )}
           </div>
           <div className="mt-5 xl:mt-0 xl:ml-5 w-[80vw] xl:w-[50vw]">
-            <RelationFilter
-              currentRole={role}
-              onFilter={(role) => {
-                setRole(role);
-              }}
-            />
             {!isRelationsEditingMode && (
-              <RelationsDisplay
-                currentRole={role}
-                onEditRelations={() => {
-                  setIsRelationsEditingMode(true);
-                }}
-              />
+              <>
+                <p className="text-md text-center font-semibold">Relations</p>
+                <Divider className="mb-3 mt-1" />
+                <RelationFilter
+                  currentRole={role}
+                  onFilter={(role) => {
+                    setRole(role);
+                  }}
+                />
+                <RelationsDisplay
+                  currentRole={role}
+                  onEditRelations={() => {
+                    setIsRelationsEditingMode(true);
+                  }}
+                />
+              </>
             )}
             {isRelationsEditingMode && (
               <RelationsUpdate

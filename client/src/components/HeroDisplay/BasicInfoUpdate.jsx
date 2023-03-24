@@ -25,9 +25,8 @@ const BasicInfoUpdate = ({ onEditProfile, heroData: heroOriginalData }) => {
 
   const updateInfoHandler = (heroData) => {
     editHeroMutation.mutate({
-      hero: heroData,
+      hero: { basicInfo: heroData, heroId: heroOriginalData._id },
       token,
-      heroId: heroOriginalData._id,
     });
   };
 

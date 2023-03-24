@@ -11,10 +11,10 @@ export const addNewHero = async (newHero, token) => {
   return res;
 };
 
-export const editHero = async (hero, token, heroId) => {
+export const editHero = async (hero, token) => {
   axios.defaults.headers.common["Authorization"] = `BEARER ${token}`;
   const res = await axios.put(
-    `${import.meta.env.VITE_SERVER_URL}/heroes/${heroId}`,
+    `${import.meta.env.VITE_SERVER_URL}/heroes/${hero.heroId}`,
     {
       hero,
     }

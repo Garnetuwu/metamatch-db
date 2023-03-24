@@ -32,6 +32,26 @@ const newHeroReducer = (state = initialState, action) => {
     return {
       ...initialState,
     };
+  } else if (action.type === "UPDATE_RELATION") {
+    let filteredHero = state.relationships.filter(
+      (relation) => relation.hero.name === action.payload.name
+    )[0];
+    filteredHero = {
+      ...filteredHero,
+      ...action.payload.relation,
+      touched: true,
+    };
+    let newRelations = [];
+    state.relationships.map((relation) =>
+      relation.hero.name === action.payload.name
+        ? newRelations.push(filteredHero)
+        : newRelations.push(relation)
+    );
+
+    return {
+      ...state,
+      relationships: [...newRelations],
+    };
   }
   return state;
 };

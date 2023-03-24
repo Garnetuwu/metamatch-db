@@ -12,7 +12,6 @@ const RelationsDisplay = ({ onEditRelations, currentRole }) => {
       key={relation.hero._id}
       id={relation.hero._id}
       name={relation.hero.name}
-      role={relation.hero.role}
       score={relation.score}
       special={relation.special}
       comment={relation.comment}

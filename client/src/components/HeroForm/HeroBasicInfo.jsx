@@ -113,7 +113,6 @@ const HeroBasicInfo = ({ onSubmit, isLoading, isError, error, title }) => {
           value={name}
           className={`col-span-3 ${nameError ? "outline-dirty-pink" : ""}`}
           onChange={nameChangeHandler}
-          // onBlur={nameBlurHandler}
         />
 
         {!nameError ? (

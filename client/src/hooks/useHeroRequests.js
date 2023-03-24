@@ -11,6 +11,7 @@ import { useNavigate } from "react-router-dom";
 const useHeroRequests = (heroId, token) => {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
+
   const postNewHero = useMutation({
     mutationFn: (data) => addNewHero(data.newHero, data.token),
     onSuccess: () => {
@@ -25,7 +26,7 @@ const useHeroRequests = (heroId, token) => {
   });
 
   const editHeroMutation = useMutation({
-    mutationFn: (data) => editHero(data.hero, data.token, data.heroId),
+    mutationFn: (data) => editHero(data.hero, data.token),
   });
 
   const deleteHeroMutation = useMutation({

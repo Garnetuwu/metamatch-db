@@ -3,7 +3,7 @@ import capitalize from "../../utils/capitalize";
 import Divider from "../UI/Divider";
 import RelationCard from "./RelationCard";
 
-const RelationSegment = ({ roleName, heroes }) => {
+const RelationSegment = ({ roleName, relations }) => {
   const [showExpansion, setShowExpansion] = useState(false);
   return (
     <>
@@ -19,10 +19,10 @@ const RelationSegment = ({ roleName, heroes }) => {
         </button>
         {showExpansion && (
           <ul className="contents">
-            {heroes.map((hero, index) => (
+            {relations.map((relation) => (
               <RelationCard
-                name={hero}
-                key={roleName + index}
+                name={relation.name}
+                key={relation._id}
                 className="col-span-2"
               />
             ))}
