@@ -4,7 +4,7 @@ import filterHeroesByRole from "../../utils/filterHeroesByRole";
 const displayTitle =
   " text-center py-2 text-md col-span-5 border-b-2 border-dotted border-dirty-pink";
 
-const HeroesList = ({ heroes, onDeleteHero }) => {
+const HeroesList = ({ heroes }) => {
   const displayHeroesByRole = (heroesArray) => {
     const content = heroesArray.map((hero) => (
       <HeroItem
@@ -12,7 +12,6 @@ const HeroesList = ({ heroes, onDeleteHero }) => {
         image={hero.image}
         key={hero._id}
         id={hero._id}
-        onDeleteHero={onDeleteHero}
       />
     ));
 

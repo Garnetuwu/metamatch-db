@@ -17,10 +17,6 @@ const HeroItem = ({ image, name, id, onDeleteHero }) => {
       <Link to={`/heroes/${id}`} className="contents">
         <Button className="mt-2">view </Button>
       </Link>
-
-      <Button className="mt-2" onClick={() => onDeleteHero(id)}>
-        delete
-      </Button>
     </HeroCard>
   );
 };
