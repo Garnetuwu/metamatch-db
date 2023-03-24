@@ -2,14 +2,7 @@ import Label from "../UI/Label";
 import Input from "../UI/Input";
 import { useDispatch, useSelector } from "react-redux";
 
-const RelationCard = ({ name, className }) => {
-  const heroRelation = useSelector(
-    (state) =>
-      state.relationships.filter((relation) => relation.hero.name === name)[0]
-  );
-
-  const { score, special, comment } = heroRelation;
-
+const RelationCard = ({ name, score, special, comment, className }) => {
   const dispatch = useDispatch();
 
   const scoreChangeHandler = (e) => {
@@ -29,7 +22,7 @@ const RelationCard = ({ name, className }) => {
 
   const commentChangeHandler = (e) => {
     dispatch({
-      type: "UPDATE_COMMENT",
+      type: "UPDATE_RELATION",
       payload: { name, relation: { comment: e.target.value } },
     });
   };

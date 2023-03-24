@@ -4,7 +4,11 @@ import useHeroRequests from "../../hooks/useHeroRequests";
 import Button from "../UI/Button";
 import { useEffect } from "react";
 
-const BasicInfoUpdate = ({ onEditProfile, heroData: heroOriginalData }) => {
+const BasicInfoUpdate = ({
+  onEditProfile,
+  heroData: heroOriginalData,
+  refetch,
+}) => {
   const { editHeroMutation } = useHeroRequests(heroOriginalData._id);
   const { isSuccess, isLoading, isError, error } = editHeroMutation;
 
@@ -15,6 +19,7 @@ const BasicInfoUpdate = ({ onEditProfile, heroData: heroOriginalData }) => {
   useEffect(() => {
     if (isSuccess) {
       onEditProfile();
+      refetch();
     }
   }, [isSuccess]);
 

@@ -48,7 +48,7 @@ const Verify = () => {
             <p>Welcome back, {data.data.user.username} </p>
             <p>Redirecting...{timeRemaining} </p>
             {timeRemaining === 0 && <Navigate to="/new-hero" />}
-            <Link to="/add-hero" className="block underline text-onyx">
+            <Link to="/heroes" className="block underline text-onyx">
               view heroes
             </Link>
           </div>

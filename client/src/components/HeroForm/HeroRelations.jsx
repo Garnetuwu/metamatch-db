@@ -2,22 +2,24 @@ import { useDispatch, useSelector } from "react-redux";
 import Button from "../UI/Button";
 import Divider from "../UI/Divider";
 import RelationSegment from "./RelationSegment";
-import filterHeroesByRole from "../../utils/filterHeroesByRole";
-
 const HeroRelations = ({
+  isError,
+  isLoading,
+  error,
   onCancel,
   onUpdateRelation,
   relations: originalRelations,
+  currentRole,
 }) => {
   const dispatch = useDispatch();
   const relations = useSelector((state) => state.relationships);
   const heroRelations = useSelector((state) => state.relationships);
-  const { supportHeroes, dpsHeroes, tankHeroes } = filterHeroesByRole(
-    heroRelations.map((relation) => relation.hero)
+  const filteredRelations = heroRelations.filter(
+    (relation) => relation.hero.role === currentRole
   );
 
   const cancelButtonHandler = () => {
-    dispatch({ type: "UPDATE", payload: originalRelations });
+    dispatch({ type: "UPDATE", payload: { relationships: originalRelations } });
     onCancel();
   };
 
@@ -38,20 +40,20 @@ const HeroRelations = ({
       action="/"
       onSubmit={submitFormHandler}
     >
-      <RelationSegment roleName="support" relations={supportHeroes} />
-      <RelationSegment roleName="tanks" relations={tankHeroes} />
-      <RelationSegment roleName="dps" relations={dpsHeroes} />
+      <RelationSegment roleName={currentRole} relations={filteredRelations} />
       <Divider className="col-span-8" />
       <Button type="submit" className="col-span-4 w-3/4 place-self-center h-10">
         Submit
       </Button>
       <Button
+        disabled={isLoading}
         type="button"
         onClick={cancelButtonHandler}
         className="col-span-4 w-3/4 place-self-center h-10"
       >
         Cancel
       </Button>
+      {isError && <p className="text-dirty-pink font-semibold">{error}</p>}
     </form>
   );
 };

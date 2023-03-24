@@ -1,4 +1,4 @@
-import { createBrowserRouter, Outlet, Navigate } from "react-router-dom";
+import { createBrowserRouter, Outlet, Link } from "react-router-dom";
 
 import AuthContextProvider from "./store/auth-context";
 import Login from "./routes/Login";
@@ -24,18 +24,15 @@ const AuthWrapper = () => {
   const { loggedIn } = useAuth();
   return (
     <DisplayWrapper>
-      {!loggedIn && <Outlet />}
-      {loggedIn && <p> you are already logged in </p>}
-    </DisplayWrapper>
-  );
-};
-
-const DashboardWrapper = () => {
-  const { loggedIn } = useAuth();
-  return (
-    <DisplayWrapper>
       {loggedIn && <Outlet />}
-      {!loggedIn && <Navigate to="/login" />}
+      {!loggedIn && (
+        <div>
+          <span> Unauthorized. Login first: </span>
+          <Link to="/login" className="underline underline-offset-2">
+            click here
+          </Link>
+        </div>
+      )}
     </DisplayWrapper>
   );
 };
@@ -48,17 +45,9 @@ const router = createBrowserRouter([
         path: "/verify",
         element: <Verify />,
       },
+      { path: "/login", element: <Login /> },
       {
         element: <AuthWrapper />,
-        children: [
-          {
-            path: "/login",
-            element: <Login />,
-          },
-        ],
-      },
-      {
-        element: <DashboardWrapper />,
         children: [
           {
             path: "/new-hero",

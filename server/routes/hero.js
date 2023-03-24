@@ -20,7 +20,7 @@ router.get(
       });
       res.send(hero);
     } catch (e) {
-      next(e);
+      next(new ExpressError(e.message));
     }
   })
 );
@@ -44,16 +44,15 @@ router.put(
           }
         );
         console.log(updatedHero);
-      } else if (body.relationships) {
+      } else if (body.hero.relationships) {
         //update hero relationships
         const relationships = body.hero.relationships;
-        const heroId = body.hero.heroId;
         relationships.map(async (relationship) => {
           //update the relationship inside this hero
           await Hero.findOneAndUpdate(
             {
-              _id: heroId,
-              "relationships.id": relationship._id,
+              _id: params.id,
+              "relationships.hero": relationship.hero._id,
             },
             {
               $set: {
@@ -67,7 +66,7 @@ router.put(
           const foundCorrespondingHero = await Hero.findOneAndUpdate(
             {
               _id: relationship.hero._id,
-              "relationships.hero": heroId,
+              "relationships.hero": params.id,
             },
             {
               $set: {
@@ -77,7 +76,6 @@ router.put(
               },
             }
           );
-          console.log(foundCorrespondingHero);
         });
       }
       res.sendStatus(200);

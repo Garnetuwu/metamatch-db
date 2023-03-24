@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import Tag from "../UI/Tag";
 
 const RelationDisplayCard = ({ id, name, score, special, comment }) => {
+  console.log(comment);
   return (
     <div className="place-self-stretch flex flex-col p-2 rounded-lg  bg-indigo border-2 border-sand">
       <Link
@@ -13,7 +14,8 @@ const RelationDisplayCard = ({ id, name, score, special, comment }) => {
       {special && <Tag className="bg-dirty-pink">special</Tag>}
       {!special && <p className="font-semibold">score: {score}</p>}
       <p className="whitespace-pre-wrap">
-        {comment === "" ? "No comment" : { comment }}
+        {comment === "" && "no comment"}
+        {comment}
       </p>
     </div>
   );

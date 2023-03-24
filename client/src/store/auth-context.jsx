@@ -33,9 +33,10 @@ const AuthContextProvider = React.memo(({ children }) => {
     }
     if (isError) {
       console.log(error);
-      setLoggedInUser(false);
+      setLoggedIn(false);
+      setLoggedInUser(initialUser);
     }
-  }, [isSuccess, data]);
+  }, [isSuccess, data, error, isError]);
 
   const loginHandler = (data) => {
     const { token, user } = data;

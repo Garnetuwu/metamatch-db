@@ -33,7 +33,7 @@ export const deleteHero = async (id, token) => {
   const res = await axios.delete(
     `${import.meta.env.VITE_SERVER_URL}/heroes/${id}`
   );
-  return res;
+  return res.data;
 };
 
 export const getHero = async (id, token) => {
