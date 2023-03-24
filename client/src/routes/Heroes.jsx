@@ -15,8 +15,6 @@ const Heroes = () => {
     deleteHeroMutation.mutate({ id, token });
   };
 
-  let filteredHeroes = [];
-
   useEffect(() => {
     refetch();
   }, []);

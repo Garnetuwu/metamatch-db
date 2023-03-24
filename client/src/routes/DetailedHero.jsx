@@ -9,18 +9,26 @@ import RelationsUpdate from "../components/HeroDisplay/RelationsUpdate";
 import RelationFilter from "../components/HeroDisplay/RelationFilter";
 import Card from "../components/UI/Card";
 import Divider from "../components/UI/Divider";
+import Button from "../components/UI/Button";
 
 const DetailedHero = () => {
   const token = localStorage.getItem("token");
   const dispatch = useDispatch();
 
   const param = useParams();
-  const { fetchHeroData } = useHeroRequests(param.id, token);
+  const { fetchHeroData, deleteHeroMutation } = useHeroRequests(
+    param.id,
+    token
+  );
   const { isLoading, isSuccess, data, isError, error, refetch } = fetchHeroData;
 
   const [isProfileEditingMode, setIsProfileEditingMode] = useState(false);
   const [isRelationsEditingMode, setIsRelationsEditingMode] = useState(false);
   const [role, setRole] = useState("support");
+
+  const deleteHeroHandler = () => {
+    deleteHeroMutation.mutate({ id: param.id, token });
+  };
 
   useEffect(() => {
     if (param) {
@@ -41,6 +49,9 @@ const DetailedHero = () => {
       {isSuccess && (
         <Card className="flex flex-col px-10 xl:pr-10 xl:flex-row justify-center items-center border-2 border-sand">
           <div className="py-5 xl:w-[35vw] flex flex-col items-center gap-5 ">
+            <Button className="py-1" onClick={deleteHeroHandler}>
+              Delete Hero
+            </Button>
             {!isProfileEditingMode && (
               <BasicInfoDisplay
                 onEditProfile={() => {

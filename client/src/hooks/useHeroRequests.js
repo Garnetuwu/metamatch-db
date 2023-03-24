@@ -33,7 +33,7 @@ const useHeroRequests = (heroId, token) => {
     mutationFn: (data) => deleteHero(data.id, data.token),
     onSettled: () => {
       console.log("hero successfully deleted");
-      queryClient.invalidateQueries("heroes");
+      navigate("/heroes", { replace: true, state: "hero sucessfully deleted" });
     },
   });
 
